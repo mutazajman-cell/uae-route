@@ -159,5 +159,31 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:14px;text-align:center}
 <footer>© UAE Route. Лицензированный оператор релокации в ОАЭ.</footer>
 </div>
 <a class="wa" href="https://wa.me/971000000000">WhatsApp</a>
+<script>
+(function(){
+  const CONTACT_CONFIG = {
+    manager_msk: "79850111514",
+    manager_spb: "79992323228",
+    office_uae: "971502792056",
+    message: encodeURIComponent("Здравствуйте! Хочу уточнить детали релокации в ОАЭ.")
+  };
+  function routeWhatsAppLead(event){
+    event.preventDefault();
+    const userTimezoneOffset = new Date().getTimezoneOffset() / -60;
+    let finalPhone = CONTACT_CONFIG.office_uae;
+    if (userTimezoneOffset === 3) {
+      finalPhone = Math.random() < 0.5 ? CONTACT_CONFIG.manager_msk : CONTACT_CONFIG.manager_spb;
+    } else if (userTimezoneOffset >= 2 && userTimezoneOffset <= 12) {
+      finalPhone = CONTACT_CONFIG.manager_msk;
+    }
+    const whatsappUrl = `https://wa.me/${finalPhone}?text=${CONTACT_CONFIG.message}`;
+    window.open(whatsappUrl, '_blank');
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const waButtons = document.querySelectorAll('a[href*="wa.me"]');
+    waButtons.forEach(btn => btn.addEventListener('click', routeWhatsAppLead));
+  });
+})();
+</script>
 </body>
 </html>
