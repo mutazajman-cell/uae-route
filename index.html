@@ -169,14 +169,15 @@ footer{padding:30px 0 50px;color:var(--muted);font-size:14px;text-align:center}
   };
   function routeWhatsAppLead(event){
     event.preventDefault();
-    const userTimezoneOffset = new Date().getTimezoneOffset() / -60;
+        const params = new URLSearchParams(window.location.search);
+    const manager = params.get('m');
     let finalPhone = CONTACT_CONFIG.office_uae;
-    if (userTimezoneOffset === 3) {
-      finalPhone = Math.random() < 0.5 ? CONTACT_CONFIG.manager_msk : CONTACT_CONFIG.manager_spb;
-    } else if (userTimezoneOffset >= 2 && userTimezoneOffset <= 12) {
+    if (manager === 'moscow') {
       finalPhone = CONTACT_CONFIG.manager_msk;
+    } else if (manager === 'spb') {
+      finalPhone = CONTACT_CONFIG.manager_spb;
     }
-    const whatsappUrl = `https://wa.me/${finalPhone}?text=${CONTACT_CONFIG.message}`;
+const whatsappUrl = `https://wa.me/${finalPhone}?text=${CONTACT_CONFIG.message}`;
     window.open(whatsappUrl, '_blank');
   }
   document.addEventListener('DOMContentLoaded', () => {
